@@ -16,7 +16,6 @@ namespace IntelligentMachine.Twitch.IRC
 
         private Thread inputThread;
         private Thread outputThread;
-        private Thread processingThread;
 
         private RingBuffer<string> outgoingBuffer; //Hold all of our raw data from chat, another class will handle converting into something game friendly - IntelliTwitchInterpreter
         private RingBuffer<string> commandBuffer; //holds all commands that need to be sent TO twitch via IRC.
@@ -90,8 +89,6 @@ namespace IntelligentMachine.Twitch.IRC
             outputThread = new Thread(() => ProcessOutput(outputWriter));
             outputThread.Start();
 
-            processingThread = new Thread(() => ProcessCommands());
-            processingThread.Start();
         }
         
         #endregion
@@ -182,23 +179,13 @@ namespace IntelligentMachine.Twitch.IRC
             }
         }
 
-        //Runs on the processing Thread
-        private void ProcessCommands()
-        {
-            while (!stopThreads)
-            {
-                var nextCommand = DequeueProcessedBuffer();
-                if (nextCommand != null)
-                    nextCommand.RunCommand();
-            }
-        }
+       
 
         public void Stop()
         {
             stopThreads = true;
             inputThread.Abort();
             outputThread.Abort();
-            processingThread.Abort();
         }
 
         #endregion
@@ -236,6 +223,19 @@ namespace IntelligentMachine.Twitch.IRC
         public void QueueProcessedAction(IIntelliTwitchCommandAction cmd)
         {
             incomingBuffer.Enqueue(cmd);
+        }
+
+        /// <summary>
+        /// Returns the next available command, returns null if not available.
+        /// </summary>
+        /// <returns></returns>
+        public IIntelliTwitchCommandAction RetrieveNextCommandAction()
+        {
+            IIntelliTwitchCommandAction temp;
+            if (incomingBuffer.TryDequeue(out temp))
+                return temp;
+
+            return null;
         }
 
         #endregion

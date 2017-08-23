@@ -36,6 +36,9 @@ namespace IntelligentMachine.Twitch.IRC
                     Debug.Log(tempDebug); 
             }
 #endif
+            //for example and testing
+            // You can call this however you like, on a timer, every frame. Each call will only process the next available command action.
+            RunNextCommandAction();
         }
 
         #endregion
@@ -62,6 +65,16 @@ namespace IntelligentMachine.Twitch.IRC
         public void SendChatWhisper(string channel, string user, string msg)
         {
             SendChatMessage(channel, "/w " + user + " " + msg);
+        }
+
+        /// <summary>
+        /// Runs the very next command action in the queue, If there is one.
+        /// </summary>
+        public void RunNextCommandAction()
+        {
+            var tempCommand = chatClient.RetrieveNextCommandAction();
+            if (tempCommand != null)
+                tempCommand.RunCommand();
         }
 
         #endregion
