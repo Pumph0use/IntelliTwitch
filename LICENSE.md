@@ -2,6 +2,7 @@ The MIT License (MIT)
 
 
 Copyright (c) 2017 Dustin Sims https://github.com/Pumph0use/IntelliTwitch
+
 Copyright (c) 2014 Roberto Huertas https://github.com/codecoding/SQLite4Unity3d
 
 
