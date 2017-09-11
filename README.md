@@ -23,7 +23,10 @@ IntelliTwitch tries to be user friendly. You can easily create commands that can
  username case does not matter.
  - Attach your `IntelliTwitchBotInfo` to the `IntelliTwitchManager` field labeled `Bot Info`.
  - Give your database a name, without the `.db` extension, within the `IntelliTwitchManager`.
- - **The `Streaming Assets` folder is 100% necessary even though it starts empty. Your database file will appear here after this first run.
+ - **The** `Streaming Assets` **folder is 100% necessary even though it starts empty. Your database file will appear here after this first run.
+ 
+ ## Must be ran before first use!
+ - **Open the context menu on the** `IntelliTwitchManager` **(the gear button on the script inspector) and click Build Database. This will create a database file and load the tables. It will completely wipe all data from any existing database with the same name.**
  
  
  ## Creating Commands and Actions
